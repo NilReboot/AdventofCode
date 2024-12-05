@@ -2,36 +2,40 @@ import os
 import argparse
 from datetime import datetime
 
-TEMPLATE = """def read_input(file_path: str) -> list[str]:
-    with open(file_path, 'r') as file:
-        return [line.strip() for line in file.readlines()]
 
-def parse_input(lines: list[str]) -> list:
-    # Implement your parsing logic here
-    return [line.split() for line in lines]
+def template_with_variables(year:int,day:int) -> str:
+    var1, var2 = "{result1}", "{result2}"
+    TEMPLATE: str = f"""def read_input(file_path: str) -> list[str]: 
+        with open(file_path, 'r') as file:
+            return [line.strip() for line in file.readlines()]
 
-def part1(data: list) -> int:
-    # Implement part 1 solution here
-    return 0
+    def parse_input(lines: list[str]) -> list:
+        # Implement your parsing logic here
+        return [line.split() for line in lines]
 
-def part2(data: list) -> int:
-    # Implement part 2 solution here
-    return 0
+    def part1(data: list) -> int:
+        # Implement part 1 solution here
+        return 0
 
-def main():
-    file_path = 'input.txt'  # Change this to the appropriate file path
-    lines = read_input(file_path)
-    data = parse_input(lines)
-    
-    result1 = part1(data)
-    result2 = part2(data)
-    
-    print(f'Part 1: {result1}')
-    print(f'Part 2: {result2}')
+    def part2(data: list) -> int:
+        # Implement part 2 solution here
+        return 0
 
-if __name__ == "__main__":
-    main()
-"""
+    def main():
+        file_path = './{year}/Day{day:02d}/input.txt'  # Change this to the appropriate file path
+        lines = read_input(file_path)
+        data = parse_input(lines)
+        
+        result1 = part1(data)
+        result2 = part2(data)
+        
+        print(f'Part 1: {var1}')
+        print(f'Part 2: {var2}')
+
+    if __name__ == "__main__":
+        main()
+    """
+    return TEMPLATE
 
 def create_day_folder(year: int, day: int):
     folder_name: str = f"{year}/Day{day:02d}"
@@ -39,14 +43,14 @@ def create_day_folder(year: int, day: int):
     
     # Create the Python template file
     with open(file=os.path.join(folder_name, "solution.py"), mode='w') as f:
-        f.write(TEMPLATE)
+        f.write(template_with_variables(year, day))
     
     # Create the input text file
     open(os.path.join(folder_name, "input.txt"), mode='w').close()
     
     print(f"Created folder and files for Year {year}, Day {day}")
 
-if __name__ == "__main__":
+def main() -> None:
     current_year: int = datetime.now().year
     current_day: int = datetime.now().day 
     parser = argparse.ArgumentParser(description="Generate Advent of Code day folder and files.")
@@ -56,3 +60,7 @@ if __name__ == "__main__":
     args: argparse.Namespace = parser.parse_args()
     
     create_day_folder(year=args.year, day=args.day)
+    return
+
+if __name__ == "__main__":
+    main()
